@@ -2,6 +2,8 @@ welcome to bananagrams!
 
 play it here! https://bananagrams.nataliewee.com/
 
+<img src="https://media.giphy.com/media/l1TYoiaAaPTnsxXz7j/giphy.gif" alt="bananagrams" />
+
 
 ## to run it locally:
 
