@@ -27,6 +27,12 @@ then run `netlify deploy --prod`
 
 and also put `./build` when it asks for the folder
 
+## to deploy the backend:
+
+commit your changes in the server/ directory
+
+run `git push heroku master` and the changes will be deployed to heroku
+
 NOTE:
 
 using https://kaffeine.herokuapp.com/ to prevent heroku from idling after 30 minutes which messes up all the socket data
