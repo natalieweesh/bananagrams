@@ -26,3 +26,7 @@ and when it asks for which folder, put `./build`
 then run `netlify deploy --prod`
 
 and also put `./build` when it asks for the folder
+
+NOTE:
+
+using https://kaffeine.herokuapp.com/ to prevent heroku from idling after 30 minutes which messes up all the socket data
