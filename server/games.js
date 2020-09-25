@@ -46,7 +46,11 @@ const getGame = (id) => games.find((game) => game.id === id);
 
 const updateCards = (room, cards) => {
   let game = games.find((game) => game.id === room);
-  game.cards = cards;
+  game.cards = cards.map((c) => {
+    const randX = 1000 + Math.floor(Math.random() * 650);
+    const randY = 1230 + Math.floor(Math.random() * 645);
+    return {x: randX, y: randY, ...c}
+  });
   return game;
 }
 
