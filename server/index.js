@@ -5,7 +5,7 @@ const http = require('http');
 const cors = require('cors');
 
 const { addUser, getUser, getUsersInRoom, setReadyToPlay, setReadyToRestart, setAllNotReadyToRestart, checkAllReadyToPlay, checkAllReadyToRestart, scheduleRemoveUser } = require('./users.js');
-const { addGame, getGame, restartGame, removeGame, scheduleRemoveGame, nextTurn, updateCards, updateTile, rollDice, endGame, splitGame } = require('./games.js');
+const { addGame, getGame, restartGame, removeGame, scheduleRemoveGame, nextTurn, updateCards, updateTile, endGame, splitGame } = require('./games.js');
 
 const PORT = process.env.PORT || 5000;
 
@@ -105,7 +105,7 @@ io.on('connection', (socket) => {
   socket.on('moveTile', ({el, x, y, settingUp}, callback) => {
     try {
       const user = getUser(socket.id);
-      console.log('in movetile socket', user, el, x, y, settingUp)
+      // console.log('in movetile socket', user, el, x, y, settingUp)
       updateTile(user.room, el, x, y, settingUp ? null : user);
       io.to(user.room).emit('tileMoved', {room: user.room, el, x, y, user: settingUp ? null : user});
       callback();
@@ -114,13 +114,15 @@ io.on('connection', (socket) => {
     }
   })
 
-  socket.on('rollDice', (callback) => {
+  socket.on('limboTile', ({el, x, y}, callback) => {
     try {
       const user = getUser(socket.id);
-      rollDice(user.room);
-      io.to(user.room).emit('gameStatus', { room: user.room, game: getGame(user.room) })
+      // console.log('in limboTile', el, user)
+      updateTile(user.room, el, x, y, user, true);
+      io.to(user.room).emit('tileLimboed', {room: user.room, el, x, y, user: user});
+      callback();
     } catch (e) {
-      console.log('error in rollDice socket', e);
+      console.log('error in limboTile socket', e);
     }
   })
 

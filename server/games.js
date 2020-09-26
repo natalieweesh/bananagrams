@@ -19,7 +19,6 @@ const addGame = (room, users) => {
     finishedGame: false,
     split: false,
     currentRound: 0,
-    dice: [1, 1],
   }
   games.push(newGame)
   console.log('games', games);
@@ -54,23 +53,20 @@ const updateCards = (room, cards) => {
   return game;
 }
 
-const updateTile = (room, id, x, y, user) => {
+const updateTile = (room, id, x, y, user, limbo) => {
   let game = games.find((game) => game.id === room);
   if (game && game.cards) {
     card = game.cards.find((card) => card.id === id);
     card.x = x;
     card.y = y;
     card.user = user;
+    if (limbo) {
+      card.limbo = true;
+    } else {
+      card.limbo = false;
+    }
     return card;
   }
-}
-
-const rollDice = (room) => {
-  let game = games.find((game) => game.id === room);
-  const roll1 = Math.floor(Math.random() * 6) + 1;
-  const roll2 = Math.floor(Math.random() * 6) + 1;
-  game.dice = [roll1, roll2];
-  return game;
 }
 
 const endGame = (room) => {
@@ -122,4 +118,4 @@ const scheduleRemoveGame = (room, getUsersInRoom) => {
   pendingRemovals[room] = intervalId;
 }
 
-module.exports = { addGame, getGame, restartGame, removeGame, scheduleRemoveGame, updateCards, updateTile, rollDice, endGame, splitGame };
+module.exports = { addGame, getGame, restartGame, removeGame, scheduleRemoveGame, updateCards, updateTile, endGame, splitGame };
