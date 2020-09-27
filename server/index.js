@@ -107,7 +107,8 @@ io.on('connection', (socket) => {
       const user = getUser(socket.id);
       // console.log('in movetile socket', user, el, x, y, settingUp)
       updateTile(user.room, el, x, y, settingUp ? null : user);
-      io.to(user.room).emit('tileMoved', {room: user.room, el, x, y, user: settingUp ? null : user});
+      let currentGame = getGame(user.room);
+      io.to(user.room).emit('tileMoved', {room: user.room, el, x, y, user: settingUp ? null : user, allCards: currentGame.cards});
       callback();
     } catch (e) {
       console.log('error in moveTile socket', e);
@@ -119,7 +120,8 @@ io.on('connection', (socket) => {
       const user = getUser(socket.id);
       // console.log('in limboTile', el, user)
       updateTile(user.room, el, x, y, user, true);
-      io.to(user.room).emit('tileLimboed', {room: user.room, el, x, y, user: user});
+      let currentGame = getGame(user.room);
+      io.to(user.room).emit('tileLimboed', {room: user.room, el, x, y, user: user, allCards: currentGame.cards});
       callback();
     } catch (e) {
       console.log('error in limboTile socket', e);
